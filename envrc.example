@@ -1,0 +1,2 @@
+export CANVAS_TOKEN=someToken
+export CANVAS_COURSE_ID=123
