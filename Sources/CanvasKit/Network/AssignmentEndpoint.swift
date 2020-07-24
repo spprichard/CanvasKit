@@ -1,3 +1,4 @@
+import NIO
 import Foundation
 import AsyncHTTPClient
 
@@ -10,21 +11,18 @@ public struct AssignmentEndpoint {
         self.decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
     
-    public func GetAssignments(for course: Int, with client: HTTPClient) -> Result<[Assignment], Error> {
-        do {
-            var request = try HTTPClient.Request(
-                    url: Endpoint(path: "api/v1/courses/\(course)/assignments", hostSubDomain: "gatech").url.absoluteString,
-                    method: .GET,
-                    body: nil)
-            request.headers.add(name: "Authorization", value: "Bearer \(self.token)")
-            
-            let response = try client.execute(request: request).wait()
-            guard let body = response.body else { fatalError() }
-            
-            let assignment = try self.decoder.decode([Assignment].self, from: body)
-            return .success(assignment)
-        } catch(let err) {
-            return .failure(err)
-        }
+    public func getAssignments(for course: Int, with client: HTTPClient) throws -> EventLoopFuture<[Assignment]> {
+        var request = try HTTPClient.Request(
+                url: Endpoint(path: "api/v1/courses/\(course)/assignments", hostSubDomain: "gatech").url.absoluteString,
+                method: .GET,
+                body: nil)
+        request.headers.add(name: "Authorization", value: "Bearer \(self.token)")
+        
+        return client
+            .execute(request: request)
+            .flatMapThrowing { response in
+                guard let body = response.body else { throw ClientErrors.DecodeResponseBody }
+                return try self.decoder.decode([Assignment].self, from: body)
+            }
     }
 }
