@@ -11,7 +11,7 @@ let package = Package(
             targets: ["CanvasKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.0.0")
+        .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.1.1")
     ],
     targets: [
         .target(
