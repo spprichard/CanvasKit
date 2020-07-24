@@ -3,11 +3,12 @@ import Foundation
 struct Endpoint {
     var path: String
     var queryItems: [URLQueryItem] = []
+    var hostSubDomain: String
     
     var url: URL {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "canvas.instructure.com"
+        components.host = "\(hostSubDomain).instructure.com"
         components.path = "/" + path
         components.queryItems = queryItems
         
@@ -16,5 +17,9 @@ struct Endpoint {
         }
         
         return url
+    }
+    
+    func with(params: [URLQueryItem]) -> Endpoint {
+        return Endpoint(path: self.path, queryItems: params, hostSubDomain: self.hostSubDomain)
     }
 }

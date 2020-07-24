@@ -13,7 +13,7 @@ public struct AssignmentEndpoint {
     public func GetAssignments(for course: Int, with client: HTTPClient) -> Result<[Assignment], Error> {
         do {
             var request = try HTTPClient.Request(
-                    url: Endpoint(path: "api/v1/courses/\(course)/assignments").url.absoluteString,
+                    url: Endpoint(path: "api/v1/courses/\(course)/assignments", hostSubDomain: "gatech").url.absoluteString,
                     method: .GET,
                     body: nil)
             request.headers.add(name: "Authorization", value: "Bearer \(self.token)")
