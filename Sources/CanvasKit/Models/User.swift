@@ -1,15 +1,27 @@
 import Foundation
 
 public struct User: Codable {
-    var id: Int
-    var name: String
-    var createdAt: String
-    var sortableName: String?
-    var shortName: String?
-    var sisUserID: String?
-    var integrationID: String?
-    var loginID: String?
-    var email: String
+    public var id: Int
+    public var name: String
+    public var createdAt: String
+    public var sortableName: String?
+    public var shortName: String?
+    public var sisUserID: String?
+    public var integrationID: String?
+    public var loginID: String?
+    public var email: String
+    
+    public init(
+        id: Int,
+        name: String,
+        createdAt: String,
+        email: String
+    ) {
+        self.id = id
+        self.name = name
+        self.createdAt = createdAt
+        self.email = email
+    }
     
     enum CodingKeys: String, CodingKey {
         case id
